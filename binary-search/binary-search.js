@@ -1,36 +1,19 @@
 'use strict';
 
-// Complete this algo
-const binarySearch = (array, target) => {
-	//find the root by splitting the array and rounding up
-	let root = Math.floor(array.length / 2 )
-		//cut the array in half, lowest numbers on the left and highest on the right
-	let lowArray = array.slice(0, root)
-	let highArray = array.slice(root);
-	if (target === root) {
+const binarySearch = (array, target, left = 0, right = array.length) => {
+	let toCheck = Math.floor((left + right) / 2 );
+	if(right < left){
+		return false
+	}
+	if(array[toCheck] === target){
 		return true
-	} else if (target < root) {
-		if (lowArray.length < 2 && root !== target) {
-			return false
-		} else {
-			binarySearch(lowArray, target)
-		}
+	} else if(array[toCheck] > target){
+		right = toCheck - 1
+		return binarySearch(array, target, left, right);
 	} else {
-		 if (binarySearch(highArray, target)) {
-			return true
-		} else {
-			return false
-		}
+		left = toCheck + 1
+		return binarySearch(array, target, left, right);
 	}
 };
-
-/*
-	EXTRA CREDIT:
-
-	Can you augment the function above to run in constant O(1) space?
-	This means, you cannot edit/copy the original array!
-	How can we use other pieces of data, like pointers, to avoid slicing?
-
-*/
 
 module.exports = binarySearch
